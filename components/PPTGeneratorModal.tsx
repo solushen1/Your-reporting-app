@@ -17,6 +17,133 @@ type PhotoOption = 'original' | 'enhanced' | 'remove_bg';
 type AiVisualStyle = 'minimalist' | 'photorealistic' | 'cartoon' | '3d-render' | 'animated-vector';
 type AspectRatio = '16:9' | '4:3' | '1:1';
 
+// Template-specific slide structures
+type TemplateType = 'sermons' | 'marketing' | 'leadership' | 'engineering' | 'students' | 'consulting' | 'hr' | 'operations' | 'finance' | 'education' | 'church' | 'general';
+
+interface SlideStructure {
+  slides: Array<{
+    type: 'scripture' | 'story' | 'appeal' | 'product-showcase' | 'analysis' | 'call-to-action' | 'mission' | 'strategy' | 'vision' | 'diagram' | 'workflow' | 'research' | 'project-report' | 'problem' | 'solution' | 'recommendation' | 'training' | 'onboarding' | 'workforce' | 'process-flow' | 'kpi-dashboard' | 'budget' | 'forecast' | 'financial-chart' | 'lesson-plan' | 'key-points' | 'summary' | 'data' | 'content';
+    title: string;
+    description: string;
+  }>;
+}
+
+const templateTypeStructures: Record<TemplateType, SlideStructure> = {
+  sermons: {
+    slides: [
+      { type: 'scripture', title: 'Scripture Foundation', description: 'Key biblical text and context' },
+      { type: 'story', title: 'Illustration & Story', description: 'Real-life examples and narratives' },
+      { type: 'appeal', title: 'Call to Action', description: 'Practical application and invitation' }
+    ]
+  },
+  marketing: {
+    slides: [
+      { type: 'product-showcase', title: 'Product/Service Showcase', description: 'Features and benefits presentation' },
+      { type: 'analysis', title: 'Market Analysis', description: 'Data-driven insights and trends' },
+      { type: 'call-to-action', title: 'Call to Action', description: 'Next steps and engagement' }
+    ]
+  },
+  leadership: {
+    slides: [
+      { type: 'mission', title: 'Mission & Purpose', description: 'Organizational mission and goals' },
+      { type: 'strategy', title: 'Strategic Initiatives', description: 'Key strategies and implementation plans' },
+      { type: 'vision', title: 'Vision & Future', description: 'Long-term vision and aspirations' }
+    ]
+  },
+  engineering: {
+    slides: [
+      { type: 'diagram', title: 'System Diagrams', description: 'Technical architecture and design' },
+      { type: 'workflow', title: 'Process Workflows', description: 'Step-by-step processes and procedures' }
+    ]
+  },
+  students: {
+    slides: [
+      { type: 'research', title: 'Research Overview', description: 'Study objectives and methodology' },
+      { type: 'project-report', title: 'Project Results', description: 'Findings and conclusions' }
+    ]
+  },
+  consulting: {
+    slides: [
+      { type: 'problem', title: 'Problem Definition', description: 'Current challenges and issues' },
+      { type: 'solution', title: 'Proposed Solutions', description: 'Recommended approaches and strategies' },
+      { type: 'recommendation', title: 'Final Recommendations', description: 'Implementation roadmap and next steps' }
+    ]
+  },
+  hr: {
+    slides: [
+      { type: 'training', title: 'Training Programs', description: 'Educational initiatives and development' },
+      { type: 'onboarding', title: 'Onboarding Process', description: 'New employee integration' },
+      { type: 'workforce', title: 'Workforce Analytics', description: 'Employee metrics and insights' }
+    ]
+  },
+  operations: {
+    slides: [
+      { type: 'process-flow', title: 'Process Flows', description: 'Operational procedures and workflows' },
+      { type: 'kpi-dashboard', title: 'KPI Dashboard', description: 'Key performance indicators and metrics' }
+    ]
+  },
+  finance: {
+    slides: [
+      { type: 'budget', title: 'Budget Overview', description: 'Financial planning and allocation' },
+      { type: 'forecast', title: 'Financial Forecast', description: 'Projected financial performance' },
+      { type: 'financial-chart', title: 'Financial Analysis', description: 'Charts and financial data visualization' }
+    ]
+  },
+  education: {
+    slides: [
+      { type: 'lesson-plan', title: 'Lesson Plans', description: 'Educational content and structure' },
+      { type: 'key-points', title: 'Key Learning Points', description: 'Essential concepts and takeaways' },
+      { type: 'summary', title: 'Summary & Review', description: 'Recap and reinforcement' }
+    ]
+  },
+  church: {
+    slides: [
+      { type: 'data', title: 'Statistical Overview', description: 'Membership and financial data' },
+      { type: 'content', title: 'Report Content', description: 'Detailed information and activities' },
+      { type: 'summary', title: 'Summary & Actions', description: 'Key highlights and next steps' }
+    ]
+  },
+  general: {
+    slides: [
+      { type: 'content', title: 'Content Overview', description: 'General information presentation' },
+      { type: 'data', title: 'Data & Analysis', description: 'Key metrics and insights' },
+      { type: 'summary', title: 'Summary', description: 'Key takeaways and conclusions' }
+    ]
+  }
+};
+
+// Function to determine template type based on template key/name
+const getTemplateType = (template: ReportTemplate): TemplateType => {
+  const templateName = template.name.toLowerCase();
+  const templateKey = template.key.toLowerCase();
+  
+  if (templateName.includes('sermon') || templateName.includes('preaching') || templateName.includes('homily')) {
+    return 'sermons';
+  } else if (templateName.includes('marketing') || templateName.includes('promotion') || templateName.includes('campaign')) {
+    return 'marketing';
+  } else if (templateName.includes('leadership') || templateName.includes('executive') || templateName.includes('strategic')) {
+    return 'leadership';
+  } else if (templateName.includes('engineering') || templateName.includes('technical') || templateName.includes('development')) {
+    return 'engineering';
+  } else if (templateName.includes('student') || templateName.includes('academic') || templateName.includes('research')) {
+    return 'students';
+  } else if (templateName.includes('consulting') || templateName.includes('advisory') || templateName.includes('recommendation')) {
+    return 'consulting';
+  } else if (templateName.includes('hr') || templateName.includes('human resource') || templateName.includes('training') || templateName.includes('onboarding')) {
+    return 'hr';
+  } else if (templateName.includes('operations') || templateName.includes('operational') || templateName.includes('process')) {
+    return 'operations';
+  } else if (templateName.includes('finance') || templateName.includes('treasury') || templateName.includes('budget') || templateName.includes('financial')) {
+    return 'finance';
+  } else if (templateName.includes('education') || templateName.includes('lesson') || templateName.includes('curriculum')) {
+    return 'education';
+  } else if (templateName.includes('church') || templateName.includes('clerk') || templateName.includes('branch') || templateName.includes('adventist')) {
+    return 'church';
+  } else {
+    return 'general';
+  }
+};
+
 export const PPTGeneratorModal: React.FC<PPTGeneratorModalProps> = ({ template, formData, onClose }) => {
   const [selectedTheme, setSelectedTheme] = useState<PptTheme>(pngPalettes[0]);
   const [photoOption, setPhotoOption] = useState<PhotoOption>('original');
@@ -26,11 +153,15 @@ export const PPTGeneratorModal: React.FC<PPTGeneratorModalProps> = ({ template, 
   const [loadingMessage, setLoadingMessage] = useState('Initializing...');
   const [ai, setAi] = useState<GoogleGenAI | null>(null);
   const [isPptxGenJsLoaded, setIsPptxGenJsLoaded] = useState(false);
+  
+  // Get template type and corresponding slide structure
+  const templateType = getTemplateType(template);
+  const slideStructure = templateTypeStructures[templateType];
 
 
   useEffect(() => {
     try {
-      setAi(new GoogleGenAI({ apiKey: process.env.API_KEY }));
+      setAi(new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY }));
     } catch (e) {
       console.error("Failed to initialize GoogleGenAI", e);
     }
@@ -153,24 +284,83 @@ export const PPTGeneratorModal: React.FC<PPTGeneratorModalProps> = ({ template, 
         color: p.text_light
       });
       
+      // Create template-specific structure overview slide
+      setLoadingMessage(`Creating ${templateType} structure overview...`);
+      const overviewSlide = pptx.addSlide();
+      overviewSlide.background = { color: p.background };
+      overviewSlide.addText(`${templateType.charAt(0).toUpperCase() + templateType.slice(1)} Presentation Structure`, {
+        x: '5%', y: '5%', w: '90%', h: '15%',
+        fontFace: 'Merriweather', fontSize: 28, color: p.primary, bold: true, valign: 'middle'
+      });
+      
+      const structureText = slideStructure.slides.map((slide, index) => 
+        `${index + 1}. ${slide.title}: ${slide.description}`
+      ).join('\n');
+      
+      overviewSlide.addText(structureText, {
+        x: '5%', y: '25%', w: '90%', h: '70%',
+        fontFace: 'Roboto', fontSize: 16, color: p.text, valign: 'top'
+      });
+      
+      // Group sections by template-specific slide types
+      const groupedSections = new Map<string, any[]>();
+      
       for (const [sIndex, section] of template.sections.entries()) {
-        setLoadingMessage(`Processing section ${sIndex + 1}/${template.sections.length}: ${section.title}`);
-        
-        const sectionIconPrompt = `A ${aiVisualStyle}, professional vector icon for a report section titled "${section.title}". Use a color palette based on ${p.primary} and ${p.accent}. Transparent background. Simple and clean.`;
-        const sectionIcon = await generateAIIcon(sectionIconPrompt);
-
-        const sectionSlide = pptx.addSlide();
-        sectionSlide.background = { color: p.background };
-        sectionSlide.addText(section.title, {
-          x: '5%', y: '5%', w:'80%', h: '15%',
-          fontFace: 'Merriweather', fontSize: 28, color: p.primary, valign: 'middle'
-        });
-        if (sectionIcon) {
-             sectionSlide.addImage({ data: sectionIcon, x: '88%', y: '4%', w: '10%', h: '18%' });
+        const slideType = slideStructure.slides[sIndex % slideStructure.slides.length];
+        if (!groupedSections.has(slideType.type)) {
+          groupedSections.set(slideType.type, []);
         }
-        sectionSlide.addShape(pptx.shapes.LINE, { x: '5%', y: '22%', w: '90%', h: 0, line: { color: p.accent, width: 2 } });
+        groupedSections.get(slideType.type)!.push({ section, slideType });
+      }
 
-        for(const field of section.fields) {
+      // Generate slides based on template-specific structure
+      for (const [slideTypeKey, sectionsForType] of groupedSections) {
+        const slideTypeInfo = slideStructure.slides.find(s => s.type === slideTypeKey);
+        if (!slideTypeInfo) continue;
+        
+        setLoadingMessage(`Creating ${slideTypeInfo.title} slides...`);
+        
+        // Create a section divider slide for each slide type
+        const dividerSlide = pptx.addSlide();
+        dividerSlide.background = { color: p.primary };
+        
+        const dividerIconPrompt = `A ${aiVisualStyle}, professional vector icon representing "${slideTypeInfo.title}" for a ${templateType} presentation. Use colors ${p.accent} and ${p.background}. Transparent background. ${slideTypeInfo.description}.`;
+        const dividerIcon = await generateAIIcon(dividerIconPrompt);
+        
+        if (dividerIcon) {
+          dividerSlide.addImage({ data: dividerIcon, x: '5%', y: '25%', w: '15%', h: '25%' });
+        }
+        
+        dividerSlide.addText(slideTypeInfo.title, {
+          x: '22%', y: '20%', w: '73%', h: '20%',
+          fontFace: 'Merriweather', fontSize: 32, color: p.text_light, bold: true, valign: 'middle'
+        });
+        
+        dividerSlide.addText(slideTypeInfo.description, {
+          x: '22%', y: '45%', w: '73%', h: '15%',
+          fontFace: 'Roboto', fontSize: 18, color: p.text_light, valign: 'top'
+        });
+        
+        // Process each section for this slide type
+        for (const { section, slideType } of sectionsForType) {
+          setLoadingMessage(`Processing ${section.title}...`);
+          
+          const sectionIconPrompt = `A ${aiVisualStyle}, professional vector icon for "${section.title}" in a ${templateType} context. Use a color palette based on ${p.primary} and ${p.accent}. Transparent background. Simple and clean.`;
+          const sectionIcon = await generateAIIcon(sectionIconPrompt);
+
+          const sectionSlide = pptx.addSlide();
+          sectionSlide.background = { color: p.background };
+          sectionSlide.addText(`${slideType.title}: ${section.title}`, {
+            x: '5%', y: '5%', w:'80%', h: '15%',
+            fontFace: 'Merriweather', fontSize: 24, color: p.primary, valign: 'middle'
+          });
+          if (sectionIcon) {
+               sectionSlide.addImage({ data: sectionIcon, x: '88%', y: '4%', w: '10%', h: '18%' });
+          }
+          sectionSlide.addShape(pptx.shapes.LINE, { x: '5%', y: '22%', w: '90%', h: 0, line: { color: p.accent, width: 2 } });
+
+          // Process fields for this section
+          for(const field of section.fields) {
             const value = formData[section.id]?.[field.id];
             if (!value || (Array.isArray(value) && value.filter(Boolean).length === 0)) continue;
 
@@ -252,6 +442,7 @@ export const PPTGeneratorModal: React.FC<PPTGeneratorModalProps> = ({ template, 
                      }
                      break;
             }
+          }
         }
       }
 
